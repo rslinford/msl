@@ -22,5 +22,5 @@ public:
 	bool operator < (grades g) const;
 	double converter(string letGrade);
 	double calcGrd(double numGrade);
-	void grades::crap();
+	void crap();
 };

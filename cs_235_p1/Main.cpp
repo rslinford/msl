@@ -43,12 +43,17 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
-	
-	
+    
+    if (argc != 5) {
+        cout << endl << "Usage:" << endl;
+        cout << endl << argv[0] << " <student_infile.txt> <grades_infile.txt> <query_infile.txt> <report_outfile.txt>" << endl;
+        cout << endl;
+        return 0;
+    }
+
 	for (int i = 0; i < argc; i++){
 		cout << argv[i] << endl;
 	}
-	
 
 	ifstream in_put;
 	in_put.open(argv[1]);
@@ -65,14 +70,13 @@ int main(int argc, char *argv[]) {
 		studentlist[i].dump();
 	}
 
-	while (getline(inGrades, g)) {
-		
-	}
 	ifstream inGrades;
 	inGrades.open(argv[2]);
-	grades g(inGrades);
+	grades g1(inGrades);
+	grades g2(inGrades);
 	vector<grades> stdGrades;
-	stdGrades.push_back(g);
+	stdGrades.push_back(g1);
+	stdGrades.push_back(g2);
 	
 	for (int i = 0; i < stdGrades.size(); i++){
 		stdGrades[i].crap();
@@ -98,7 +102,5 @@ int main(int argc, char *argv[]) {
 	cout << "--Argv: " << argv[i] << "::  " << argc << ":" << endl;
 	}*/
 
-	system("pause");
 	return 0;
-
 }
