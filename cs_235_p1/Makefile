@@ -22,3 +22,24 @@ clean:
 
 test: lab1
 	./lab1 in10a.txt in10b.txt in10c.txt out10.txt
+	./lab1 in11a.txt in11b.txt in11c.txt out11.txt
+	./lab1 in12a.txt in12b.txt in12c.txt out12.txt
+	./lab1 in15a.txt in15b.txt in15c.txt out15.txt
+	./lab1 in16a.txt in16b.txt in16c.txt out16.txt
+
+verify: verify10 verify11 verify12 verify15 verify16
+
+verify10: test
+	diff -u Cleanout10.txt out10.txt
+	
+verify11: test
+	diff -u Cleanout11.txt out11.txt
+	
+verify12: test
+	diff -u Cleanout12.txt out12.txt
+	
+verify15: test
+	diff -u Cleanout15.txt out15.txt
+
+verify16: test
+	diff -u Cleanout16.txt out16.txt

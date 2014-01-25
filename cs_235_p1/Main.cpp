@@ -8,7 +8,23 @@
 #include "student.h"
 using namespace std;
 
-double gradeConvert(string g)
+double gradeConvert (string g)
+{
+	double out = 0.0;
+	string letArr[] = { "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E" };
+	double grdArr[] = { 4.0, 3.7, 3.4, 3.0, 2.7, 2.4, 2.0, 1.7, 1.4, 1.0, 0.7, 0.0};
+	for (int i = 0; i < 12; i++)
+	{
+		if (g == letArr[i])
+		{
+			out = grdArr[i];
+			break;
+		}
+	}
+	return out;
+}
+
+/*double gradeConvert(string g)
 {
 	if (g == "A")
 	{
@@ -59,7 +75,7 @@ double gradeConvert(string g)
 		return 0.0;
 	}
 	return 0;
-}
+}*/
 
 
 
@@ -188,7 +204,7 @@ int main(int argc, char *argv[]) {
 	}
 	print.close();
 	
-	system("pause");
+	//system("pause");
 	
 	return 0;
 
