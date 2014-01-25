@@ -13,11 +13,15 @@ private:
 
 
 public:
+	grades();
 	grades(string courseId_in, int id_in, string grade_in);
 	grades(istream &g);
 	string getCourseId();
 	string getId();
 	string getGrade();
+	friend ostream& operator<< (ostream& os, grades& s);
+	friend istream& operator>> (istream& ig, grades& g);
+
 	//sort
 	bool operator < (grades g) const;
 	double converter(string letGrade);

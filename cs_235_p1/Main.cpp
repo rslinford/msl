@@ -1,29 +1,3 @@
-//#include <iostream>
-//#include <string>
-//#include <fstream>
-//
-//using namespace std;
-//
-//int main()
-//{
-//	ifstream stdntFl;
-//	stdntFl.open("");
-//	while (!stdntFl.eof)
-//	{
-//		getline(stdntFl, );
-//	}
-//	stdntFl.close();
-//
-//
-//
-//	return 0;
-//}
-
-
-
-
-
-
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -34,73 +8,188 @@
 #include "student.h"
 using namespace std;
 
+double gradeConvert(string g)
+{
+	if (g == "A")
+	{
+		return 4.0;
+	}
+	else if (g == "A-")
+	{
+		return 3.7;
+	}
+	else if (g == "B+")
+	{
+		return 3.7;
+	}
+	else if (g == "B")
+	{
+		return 3.0;
+	}
+	else if (g == "B-")
+	{
+		return 2.7;
+	}
+	else if (g == "C+")
+	{
+		return 2.4;
+	}
+	else if (g == "C")
+	{
+		return 2.0;
+	}
+	else if (g == "C-")
+	{
+		return 1.7;
+	}
+	else if (g == "D+")
+	{
+		return 1.4;
+	}
+	else if (g == "D")
+	{
+		return 1.0;
+	}
+	else if (g == "D-")
+	{
+		return 0.7;
+	}
+	else if (g == "E")
+	{
+		return 0.0;
+	}
+	return 0;
+}
 
-//out << fixed << setprecision(2) << setfill('0') << gpa; //output gpa in correct format
-
-
-//while (getline(in, s)) {  //Detecting eol in getline
-//}
 
 
 int main(int argc, char *argv[]) {
-    
-    if (argc != 5) {
-        cout << endl << "Usage:" << endl;
-        cout << endl << argv[0] << " <student_infile.txt> <grades_infile.txt> <query_infile.txt> <report_outfile.txt>" << endl;
-        cout << endl;
-        return 0;
-    }
+	
+	ofstream print;
+	print.open(argv[4]);
 
-	for (int i = 0; i < argc; i++){
-		cout << argv[i] << endl;
-	}
 
 	ifstream in_put;
 	in_put.open(argv[1]);
-	student s(in_put);
-	vector<student> studentlist; 
-	studentlist.push_back(s);
-
-	student charles2(in_put);
-	studentlist.push_back(charles2);
+	student* s; 
+	vector<student> studentlist;
 	
-	sort (studentlist.begin(), studentlist.end());
-
-	for (int i = 0; i < studentlist.size(); i++){
-		studentlist[i].dump();
+	while (!in_put.fail()){
+		s = new student;
+		in_put >> *s;
+		
+		if (!in_put.fail())
+		{
+			studentlist.push_back(*s); 
+		}
 	}
+
+	sort(studentlist.begin(), studentlist.end());
+	
+	for (int i = 0; i < studentlist.size(); i++)
+	{
+		if (i > 0)
+		{
+			cout << 4321 << endl;
+			print << endl;
+		}
+		cout << 1234 << endl;
+		print << studentlist[i];
+	}
+
+	in_put.close();
 
 	ifstream inGrades;
 	inGrades.open(argv[2]);
-	grades g1(inGrades);
-	grades g2(inGrades);
-	vector<grades> stdGrades;
-	stdGrades.push_back(g1);
-	stdGrades.push_back(g2);
-	
-	for (int i = 0; i < stdGrades.size(); i++){
-		stdGrades[i].crap();
+	grades* g;
+	vector<grades> gradelist;
+
+	while (!inGrades.fail()){
+		g = new grades;
+		inGrades >> *g;
+
+		if (!inGrades.fail())
+		{
+			gradelist.push_back(*g);
+		}
 	}
 
+	if (studentlist.size() != 0)
+	{
+		print << endl;
+	}
 
-	//bool b = charles < charles2;
-	//cout << b << endl; 
-	//b = charles < charles2;
-	//cout << b << endl;
-	/*string stdtFl(argv[1]);
-	string gradFl(argv[2]);
-	string quriFl(argv[3]);
-	string outFl(argv[4]);
+	if (gradelist.size() == 0)
+	{
+		print << endl;
+	}
 
+	sort(gradelist.begin(), gradelist.end());
 
-	cout << "\"" << stdtFl << "\"" << endl;
-	cout << "\"" << gradFl << "\"" << endl;
-	cout << "\"" << quriFl << "\"" << endl;
-	cout << "\"" << outFl << "\"" << endl;
+	for (int i = 0; i < gradelist.size(); i++){
+		/*if (i == 0)
+		{
+			cout << 1234 << gradelist[i].getGrade() << endl;
+			print << endl;
+		}*/
+		cout << 56 << gradelist[i].getGrade() << endl;
+		print << endl;
+		
+		cout << 789 << gradelist[i].getGrade() << endl;
+		print << gradelist[i];
+		
+	}
 
-	for (int i = 0; i < argc; i++){
-	cout << "--Argv: " << argv[i] << "::  " << argc << ":" << endl;
-	}*/
+	inGrades.close();
 
+	ifstream inQ;
+	inQ.open(argv[3]);
+	string id;
+	int addcounter = 0;
+	while (getline(inQ, id))
+	{
+		
+
+		string name;
+		double gpa = 0.00;
+		
+		for (int i = 0; i < studentlist.size(); i++)
+		{
+			if (id == studentlist[i].getID())
+			{
+				name = studentlist[i].getName();
+				break;
+			}
+			
+		}
+		if (name == "")
+		{
+			continue;
+		}
+		
+		int gradesFound = 0;
+		for (int i = 0; i < gradelist.size(); i++)
+		{
+			if (id == gradelist[i].getId())
+			{
+				gradesFound++;
+				double num = gradeConvert(gradelist[i].getGrade());
+				gpa = gpa + num;
+			}
+		}
+		if (gradesFound == 0) { gpa = 0.00;}
+		else { gpa = gpa / gradesFound; }
+		if (addcounter == 0 && gradelist.size() > 0)
+		{
+			print << endl;
+		}
+		addcounter++;
+		print << endl << fixed << setprecision(2) << id << "    " << gpa << "    " << name;
+	}
+	print.close();
+	
+	system("pause");
+	
 	return 0;
+
 }

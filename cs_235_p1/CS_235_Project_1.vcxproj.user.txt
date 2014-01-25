@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>"C:\Users\Trout Nemesis\Documents\Visual Studio 2013\Projects\CS_235_Project_1\CS_235_Project_1\in10a.txt" "C:\Users\Trout Nemesis\Documents\Visual Studio 2013\Projects\CS_235_Project_1\CS_235_Project_1\in10b.txt" "C:\Users\Trout Nemesis\Documents\Visual Studio 2013\Projects\CS_235_Project_1\CS_235_Project_1\in10c.txt" "C:\Users\Trout Nemesis\Documents\Visual Studio 2013\Projects\CS_235_Project_1\CS_235_Project_1\out10.txt" </LocalDebuggerCommandArguments>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-  </PropertyGroup>
-</Project>

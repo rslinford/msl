@@ -18,8 +18,24 @@ grades::grades(istream &g){
 	getline(g, grade);
 }
 
+grades::grades(){}
+
+istream& operator>> (istream& ig, grades& g){
+
+	getline(ig, g.courseId);
+	getline(ig, g.id);
+	getline(ig, g.grade);
+	return ig;
+}
+
 void grades::crap(){
 	cout << id << "    " << grade << "    " << courseId << endl;
+}
+
+ostream& operator<< (ostream& os, grades& s){
+
+	os << s.id << "    " << s.grade << "    " << s.courseId;
+	return os;
 }
 
 
