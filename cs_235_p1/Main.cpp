@@ -91,6 +91,35 @@ void printGrades (vector<grades> &gradelist, ostream &print)
 	}
 }
 
+double gpaCalculator (vector<grades> &gradelist, string id)
+{
+    int gradesFound = 0;
+    double sum = 0.0;
+	for (int i = 0; i < gradelist.size(); i++)
+	{
+		if (id == gradelist[i].getId())
+		{
+			gradesFound++;
+			double num = gradeConvert(gradelist[i].getGrade());
+			sum = sum + num;
+		}
+	}
+	
+	if (gradesFound == 0) { 
+	    return 0.00;
+	}
+	
+    return sum / gradesFound;
+}
+
+void postPrint (vector<grades> &gradelist, ostream &print, int addcounter)
+{
+    if (addcounter == 0 && gradelist.size() > 0)
+    	{
+    		print << endl;
+    	}
+}
+
 int main(int argc, char *argv[]) {
 	
 	ofstream print;
@@ -117,7 +146,7 @@ int main(int argc, char *argv[]) {
 
 	sort(gradelist.begin(), gradelist.end());
 	
-    printGrade (gradelist, print);
+    printGrades (gradelist, print);
 
 	inGrades.close();
 
@@ -149,22 +178,10 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 		
-		int gradesFound = 0;
-		for (int i = 0; i < gradelist.size(); i++)
-		{
-			if (id == gradelist[i].getId())
-			{
-				gradesFound++;
-				double num = gradeConvert(gradelist[i].getGrade());
-				gpa = gpa + num;
-			}
-		}
-		if (gradesFound == 0) { gpa = 0.00;}
-		else { gpa = gpa / gradesFound; }
-		if (addcounter == 0 && gradelist.size() > 0)
-		{
-			print << endl;
-		}
+		gpa = gpaCalculator (gradelist, id);
+		
+		postPrint (gradelist, print, addcounter);
+		
 		addcounter++;
 		print << endl << fixed << setprecision(2) << id << "    " << gpa << "    " << name;
 	}
