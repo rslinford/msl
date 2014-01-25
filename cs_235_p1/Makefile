@@ -30,19 +30,19 @@ test: lab1
 verify: verify10 verify11 verify12 verify15 verify16
 
 verify10: test
-	diff -u Cleanout10.txt out10.txt
+	diff -u Freshout10.txt out10.txt
 	
 verify11: test
-	diff -u Cleanout11.txt out11.txt
+	diff -u Freshout11.txt out11.txt
 	
 verify12: test
-	diff -u Cleanout12.txt out12.txt
+	diff -u Freshout12.txt out12.txt
 	
 verify15: test
-	diff -u Cleanout15.txt out15.txt
+	diff -u Freshout15.txt out15.txt
 
 verify16: test
-	diff -u Cleanout16.txt out16.txt
+	diff -u Freshout16.txt out16.txt
 
 complexity:
 	pmccabe -v *.h *.cpp

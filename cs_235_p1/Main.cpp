@@ -122,15 +122,19 @@ void postPrint (vector<grades> &gradelist, ostream &print, int addcounter)
 
 void putToysAway (vector<grades> &gradelist, vector<student> &studentlist)
 {
-    while (!studentlist.empty())
-    {
-      studentlist.pop_back();
-    }
+    // while (!studentlist.empty())
+    // {
+    //     student* s = &(studentlist.back());
+    //     studentlist.pop_back();
+    //     delete s;
+    // }
 
-    while (!gradelist.empty())
-    {
-      gradelist.pop_back();
-    }
+    // while (!gradelist.empty())
+    // {
+    //     grades* g = &(gradelist.back());
+    //     gradelist.pop_back();
+    //     delete g;
+    // }
 }
 
 int main(int argc, char *argv[]) {

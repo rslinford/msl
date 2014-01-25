@@ -1,10 +1,6 @@
 #include "student.h"
  
 student::student(){
-	//name;
-	//id;
-	//address;
-	//phone;
 }
 
 student::student(string id_in, string name_in, string address_in, string phone_in){
@@ -13,31 +9,21 @@ student::student(string id_in, string name_in, string address_in, string phone_i
 	address = address_in;
 	phone = phone_in;
 }
-void student::dump(){
+void student::dump() {
 	cout << name << endl;
 	cout << id << endl;
 	cout << phone << endl;
 	cout << address << endl;
 }
-student::student(istream &s){
-	/*string id_in;
-	string name_in;
-	string address_in;
-	string phone_in;*/
 
+student::student(istream &s) {
 	getline(s, id);
 	getline(s, name);
 	getline(s, address);
 	getline(s, phone);
-
-	/*name = name_in;
-	id = id_in;
-	address = address_in;
-	phone = phone_in;*/
 }
 
-istream& operator>> (istream& is, student& s){
-
+istream& operator>> (istream& is, student& s) {
 	getline(is, s.id);
 	getline(is, s.name);
 	getline(is, s.address);
@@ -45,8 +31,7 @@ istream& operator>> (istream& is, student& s){
 	return is;
 }
 
-ostream& operator<< (ostream& os, student& s){
-
+ostream& operator<< (ostream& os, student& s) {
 	os << s.name << endl;
 	os << s.id << endl;
 	os << s.phone << endl;
@@ -73,7 +58,3 @@ string student::getPhone(){
 const string &student::getID(){
 	return id;
 }
-//
-//void student::printStdt(){
-//
-//}

@@ -13,8 +13,6 @@ private:
 	string id;
 	string address;
 	string phone;
-	
-
 
 public:
 	student();
@@ -31,9 +29,4 @@ public:
 
 	bool operator < (const student& s) const;
 	void dump();
-
-
-
 };
-
-
