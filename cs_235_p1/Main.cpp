@@ -120,6 +120,19 @@ void postPrint (vector<grades> &gradelist, ostream &print, int addcounter)
     	}
 }
 
+void putToysAway (vector<grades> &gradelist, vector<student> &studentlist)
+{
+    while (!studentlist.empty())
+    {
+      studentlist.pop_back();
+    }
+
+    while (!gradelist.empty())
+    {
+      gradelist.pop_back();
+    }
+}
+
 int main(int argc, char *argv[]) {
 	
 	ofstream print;
@@ -186,7 +199,7 @@ int main(int argc, char *argv[]) {
 		print << endl << fixed << setprecision(2) << id << "    " << gpa << "    " << name;
 	}
 	print.close();
-	
+	putToysAway (gradelist, studentlist);
 	//system("pause");
 	
 	return 0;
