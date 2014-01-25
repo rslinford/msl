@@ -43,3 +43,13 @@ verify15: test
 
 verify16: test
 	diff -u Cleanout16.txt out16.txt
+
+complexity:
+	pmccabe -v *.h *.cpp
+	
+memory: lab1
+	valgrind --leak-check=full ./lab1 in10a.txt in10b.txt in10c.txt out10.txt
+	valgrind --leak-check=full ./lab1 in11a.txt in11b.txt in11c.txt out11.txt
+	valgrind --leak-check=full ./lab1 in12a.txt in12b.txt in12c.txt out12.txt
+	valgrind --leak-check=full ./lab1 in15a.txt in15b.txt in15c.txt out15.txt
+	valgrind --leak-check=full ./lab1 in16a.txt in16b.txt in16c.txt out16.txt

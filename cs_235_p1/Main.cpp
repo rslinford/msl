@@ -24,73 +24,11 @@ double gradeConvert (string g)
 	return out;
 }
 
-/*double gradeConvert(string g)
+void fillStdVect (vector<student> &studentlist, istream &in_put)
 {
-	if (g == "A")
+    student* s; 
+	while (!in_put.fail())
 	{
-		return 4.0;
-	}
-	else if (g == "A-")
-	{
-		return 3.7;
-	}
-	else if (g == "B+")
-	{
-		return 3.7;
-	}
-	else if (g == "B")
-	{
-		return 3.0;
-	}
-	else if (g == "B-")
-	{
-		return 2.7;
-	}
-	else if (g == "C+")
-	{
-		return 2.4;
-	}
-	else if (g == "C")
-	{
-		return 2.0;
-	}
-	else if (g == "C-")
-	{
-		return 1.7;
-	}
-	else if (g == "D+")
-	{
-		return 1.4;
-	}
-	else if (g == "D")
-	{
-		return 1.0;
-	}
-	else if (g == "D-")
-	{
-		return 0.7;
-	}
-	else if (g == "E")
-	{
-		return 0.0;
-	}
-	return 0;
-}*/
-
-
-
-int main(int argc, char *argv[]) {
-	
-	ofstream print;
-	print.open(argv[4]);
-
-
-	ifstream in_put;
-	in_put.open(argv[1]);
-	student* s; 
-	vector<student> studentlist;
-	
-	while (!in_put.fail()){
 		s = new student;
 		in_put >> *s;
 		
@@ -99,10 +37,26 @@ int main(int argc, char *argv[]) {
 			studentlist.push_back(*s); 
 		}
 	}
+}
 
-	sort(studentlist.begin(), studentlist.end());
-	
-	for (int i = 0; i < studentlist.size(); i++)
+void fillGrdVect (vector<grades> &gradelist, istream &inGrades)
+{
+    grades* g;
+    while (!inGrades.fail())
+    {
+		g = new grades;
+		inGrades >> *g;
+
+		if (!inGrades.fail())
+		{
+			gradelist.push_back(*g);
+		}
+    }
+}
+
+void printStudent (vector<student> &studentlist, ostream &print)
+{
+    for (int i = 0; i < studentlist.size(); i++)
 	{
 		if (i > 0)
 		{
@@ -112,42 +66,22 @@ int main(int argc, char *argv[]) {
 		cout << 1234 << endl;
 		print << studentlist[i];
 	}
-
-	in_put.close();
-
-	ifstream inGrades;
-	inGrades.open(argv[2]);
-	grades* g;
-	vector<grades> gradelist;
-
-	while (!inGrades.fail()){
-		g = new grades;
-		inGrades >> *g;
-
-		if (!inGrades.fail())
-		{
-			gradelist.push_back(*g);
-		}
+	if (studentlist.size() != 0 )
+	{
+		print << endl; // Windows line terminator "\r\n"   Linux "\n"
 	}
+}
 
-	if (studentlist.size() != 0)
+void printGrades (vector<grades> &gradelist, ostream &print)
+{
+   if (gradelist.size() == 0)
 	{
 		print << endl;
 	}
-
-	if (gradelist.size() == 0)
+	
+    for (int i = 0; i < gradelist.size(); i++)
 	{
-		print << endl;
-	}
-
-	sort(gradelist.begin(), gradelist.end());
-
-	for (int i = 0; i < gradelist.size(); i++){
-		/*if (i == 0)
-		{
-			cout << 1234 << gradelist[i].getGrade() << endl;
-			print << endl;
-		}*/
+		
 		cout << 56 << gradelist[i].getGrade() << endl;
 		print << endl;
 		
@@ -155,13 +89,45 @@ int main(int argc, char *argv[]) {
 		print << gradelist[i];
 		
 	}
+}
+
+int main(int argc, char *argv[]) {
+	
+	ofstream print;
+	print.open(argv[4]);
+
+	ifstream in_put;
+	in_put.open(argv[1]);
+
+	vector<student> studentlist;
+	
+	fillStdVect (studentlist, in_put);
+
+	sort(studentlist.begin(), studentlist.end());
+	
+	printStudent ( studentlist, print);
+
+	in_put.close();
+
+	ifstream inGrades;
+	inGrades.open(argv[2]);
+
+	vector<grades> gradelist;
+    fillGrdVect (gradelist, inGrades);
+
+	sort(gradelist.begin(), gradelist.end());
+	
+    printGrade (gradelist, print);
 
 	inGrades.close();
 
 	ifstream inQ;
 	inQ.open(argv[3]);
+	
 	string id;
+	
 	int addcounter = 0;
+	
 	while (getline(inQ, id))
 	{
 		
