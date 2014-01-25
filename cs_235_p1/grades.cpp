@@ -8,17 +8,13 @@ grades::grades(string courseId_in, int id_in, string grade_in){
 }
 
 grades::grades(istream &g){
-	/*string id_in;
-	string name_in;
-	string address_in;
-	string phone_in;*/
-
 	getline(g, courseId);
 	getline(g, id);
 	getline(g, grade);
 }
 
-grades::grades(){}
+grades::grades() {}
+grades::~grades() {}
 
 istream& operator>> (istream& ig, grades& g){
 
@@ -38,7 +34,6 @@ ostream& operator<< (ostream& os, grades& s){
 	return os;
 }
 
-
 string grades::getCourseId(){
 	return courseId;
 }
@@ -51,21 +46,11 @@ string grades::getGrade(){
 	return grade;
 }
 
-//sort
-double converter(string letGrade){
-	double numGrade = 0;
-
-	return numGrade;
-}
-
-
 double calcGrd(){
 	double totGrade = 0;
 
 	return totGrade;
 }
-
-
 
 bool grades::operator < (grades g) const {
 	return id < g.id ||

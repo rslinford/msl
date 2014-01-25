@@ -2,14 +2,6 @@ Dick B. Smith
 529173860
 (312) 000-1000
 879 Maple Road, Centralia, Colorado 24222
-Dick B. Smith
-529173860
-(312) 000-1000
-879 Maple Road, Centralia, Colorado 24222
-Dick B. Smith
-529173860
-(312) 000-1000
-879 Maple Road, Centralia, Colorado 24222
 Harry C. Anderson
 925173870
 (660) 050-2200
@@ -25,5 +17,5 @@ Harry C. Anderson
 925173870    E    ME527
 925173870    D+    PE273
 
-529173860    2.85    Dick B. Smith
 925173870    2.42    Harry C. Anderson
+529173860    2.85    Dick B. Smith

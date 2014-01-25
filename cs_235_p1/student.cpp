@@ -1,6 +1,9 @@
 #include "student.h"
  
-student::student(){
+student::student() {
+}
+
+student::~student() {
 }
 
 student::student(string id_in, string name_in, string address_in, string phone_in){

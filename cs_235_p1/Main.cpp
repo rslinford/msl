@@ -60,10 +60,8 @@ void printStudent (vector<student> &studentlist, ostream &print)
 	{
 		if (i > 0)
 		{
-			cout << 4321 << endl;
 			print << endl;
 		}
-		cout << 1234 << endl;
 		print << studentlist[i];
 	}
 	if (studentlist.size() != 0 )
@@ -81,13 +79,9 @@ void printGrades (vector<grades> &gradelist, ostream &print)
 	
     for (int i = 0; i < gradelist.size(); i++)
 	{
-		
-		cout << 56 << gradelist[i].getGrade() << endl;
 		print << endl;
 		
-		cout << 789 << gradelist[i].getGrade() << endl;
 		print << gradelist[i];
-		
 	}
 }
 

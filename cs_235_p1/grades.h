@@ -11,9 +11,9 @@ private:
 	string grade;
 	double numberGrade;
 
-
 public:
 	grades();
+	virtual ~grades();
 	grades(string courseId_in, int id_in, string grade_in);
 	grades(istream &g);
 	string getCourseId();
@@ -24,7 +24,6 @@ public:
 
 	//sort
 	bool operator < (grades g) const;
-	double converter(string letGrade);
 	double calcGrd(double numGrade);
 	void crap();
 };
