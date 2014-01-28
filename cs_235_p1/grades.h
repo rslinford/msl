@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
 using namespace std;
 
 class grades{
@@ -9,21 +8,28 @@ private:
 	string courseId;
 	string id;
 	string grade;
-	double numberGrade;
+
+public:	
+	const int inst;
+	
+private:
+	static int instCounter;
 
 public:
 	grades();
-	virtual ~grades();
-	grades(string courseId_in, int id_in, string grade_in);
+	~grades();
+	grades(const grades& g);
+	grades(const string& courseId, const string& id, const string& grade);
 	grades(istream &g);
-	string getCourseId();
-	string getId();
-	string getGrade();
-	friend ostream& operator<< (ostream& os, grades& s);
-	friend istream& operator>> (istream& ig, grades& g);
-
-	//sort
-	bool operator < (grades g) const;
-	double calcGrd(double numGrade);
-	void crap();
+	
+	const string& getCourseId();
+	const string& getId();
+	const string& getGrade();
+	
+   grades& operator= (const grades& g);
+	bool operator< (const grades& g) const;
+	
+	friend ostream& operator<< (ostream& os, const grades& g);
+	friend istream& operator>> (istream& is, grades& g);
 };
+
