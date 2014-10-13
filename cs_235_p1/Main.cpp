@@ -39,6 +39,7 @@ void fillStdVect (vector<student> &studentlist, istream &in_put)
 	}
 }
 
+
 void fillGrdVect (vector<grades> &gradelist, istream &inGrades)
 {
     grades* g;
