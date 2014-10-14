@@ -2,21 +2,9 @@
  
 student::student() {
 }
-
-student::~student() {
-}
-
-student::student(string id_in, string name_in, string address_in, string phone_in){
-	name = name_in;
-	id = id_in;
-	address = address_in;
-	phone = phone_in;
-}
-void student::dump() {
-	cout << name << endl;
-	cout << id << endl;
-	cout << phone << endl;
-	cout << address << endl;
+	
+student::student(const string& id, const string& name, const string& address, const string& phone) : 
+      id(id), name(name), address(address), phone(phone) {
 }
 
 student::student(istream &s) {
@@ -24,6 +12,26 @@ student::student(istream &s) {
 	getline(s, name);
 	getline(s, address);
 	getline(s, phone);
+}
+
+string const & student::getID() const {
+	return id;
+}
+
+string const & student::getName() const {
+	return name;
+}
+
+string const & student::getAddress() const {
+	return address;
+}
+
+string const & student::getPhone() const {
+	return phone;
+}
+
+bool student::operator< (const student& s) const {
+	return id < s.id;
 }
 
 istream& operator>> (istream& is, student& s) {
@@ -34,7 +42,7 @@ istream& operator>> (istream& is, student& s) {
 	return is;
 }
 
-ostream& operator<< (ostream& os, student& s) {
+ostream& operator<< (ostream& os, const student& s) {
 	os << s.name << endl;
 	os << s.id << endl;
 	os << s.phone << endl;
@@ -42,22 +50,3 @@ ostream& operator<< (ostream& os, student& s) {
 	return os;
 }
 
-string student::getName(){
-	return name;
-}
-
-bool student::operator < (const student& s) const {
-	return id < s.id;
-}
-
-string student::getAddress(){
-	return address;
-}
-
-string student::getPhone(){
-	return phone;
-}
-
-const string &student::getID(){
-	return id;
-}

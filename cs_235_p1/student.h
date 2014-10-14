@@ -1,33 +1,30 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <iomanip>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
 class student
 {
 private:
-	string name;
 	string id;
+	string name;
 	string address;
 	string phone;
 
 public:
 	student();
-	virtual ~student();
-	student(string id_in, string name_in, string address_in, string phone_in);
+	student(const string& id, const string& name, const string& address, const string& phone);
+	
 	student(istream &s);
-	friend istream& operator>> ( istream& is, student& s ); 
-	friend ostream& operator<< (ostream& os, student& s);
-	string getName();
-	string getAddress();
-	string getPhone();
-	const string &getID();
-	void printStdt();
-	vector<student> students; 
+	
+   const string& getID() const;
+   const string& getName() const;
+   const string& getAddress() const;
+   const string& getPhone() const;
 
-	bool operator < (const student& s) const;
-	void dump();
+	bool operator< (const student& s) const;
+
+	friend istream& operator>> (istream& is, student& s);
+	friend ostream& operator<< (ostream& os, const student& s);
 };
+

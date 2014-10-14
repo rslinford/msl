@@ -26,15 +26,18 @@ double gradeConvert (string g)
 
 void fillStdVect (vector<student> &studentlist, istream &in_put)
 {
-    student* s; 
 	while (!in_put.fail())
 	{
-		s = new student;
+		student* s = new student;
 		in_put >> *s;
 		
 		if (!in_put.fail())
 		{
 			studentlist.push_back(*s); 
+		}
+		else 
+		{
+		   delete s;
 		}
 	}
 }
@@ -42,22 +45,27 @@ void fillStdVect (vector<student> &studentlist, istream &in_put)
 
 void fillGrdVect (vector<grades> &gradelist, istream &inGrades)
 {
-    grades* g;
-    while (!inGrades.fail())
-    {
-		g = new grades;
-		inGrades >> *g;
+   grades g;
+   while (!inGrades.fail())
+   {
+      cout << endl << "G1 " << g;
+      
+      inGrades >> g;
+      cout << endl << "G2 " << g;
 
-		if (!inGrades.fail())
-		{
-			gradelist.push_back(*g);
-		}
-    }
+      if (!inGrades.fail())
+      {
+         gradelist.push_back(g);
+         cout << endl << "G3 " << gradelist.back();
+      }
+      
+      cout << endl << "G4 " << g << endl;
+   }
 }
 
-void printStudent (vector<student> &studentlist, ostream &print)
+void printStudent (vector<student>& studentlist, ostream& print)
 {
-    for (int i = 0; i < studentlist.size(); i++)
+   for (unsigned int i = 0; i < studentlist.size(); i++)
 	{
 		if (i > 0)
 		{
@@ -65,6 +73,7 @@ void printStudent (vector<student> &studentlist, ostream &print)
 		}
 		print << studentlist[i];
 	}
+	
 	if (studentlist.size() != 0 )
 	{
 		print << endl; // Windows line terminator "\r\n"   Linux "\n"
@@ -78,19 +87,17 @@ void printGrades (vector<grades> &gradelist, ostream &print)
 		print << endl;
 	}
 	
-    for (int i = 0; i < gradelist.size(); i++)
+   for (unsigned int i = 0; i < gradelist.size(); i++)
 	{
-		print << endl;
-		
-		print << gradelist[i];
+		print << endl << gradelist[i];
 	}
 }
 
 double gpaCalculator (vector<grades> &gradelist, string id)
 {
-    int gradesFound = 0;
-    double sum = 0.0;
-	for (int i = 0; i < gradelist.size(); i++)
+   int gradesFound = 0;
+   double sum = 0.0;
+	for (unsigned int i = 0; i < gradelist.size(); i++)
 	{
 		if (id == gradelist[i].getId())
 		{
@@ -104,7 +111,7 @@ double gpaCalculator (vector<grades> &gradelist, string id)
 	    return 0.00;
 	}
 	
-    return sum / gradesFound;
+   return sum / gradesFound;
 }
 
 void postPrint (vector<grades> &gradelist, ostream &print, int addcounter)
@@ -113,23 +120,6 @@ void postPrint (vector<grades> &gradelist, ostream &print, int addcounter)
     	{
     		print << endl;
     	}
-}
-
-void putToysAway (vector<grades> &gradelist, vector<student> &studentlist)
-{
-    // while (!studentlist.empty())
-    // {
-    //     student* s = &(studentlist.back());
-    //     studentlist.pop_back();
-    //     delete s;
-    // }
-
-    // while (!gradelist.empty())
-    // {
-    //     grades* g = &(gradelist.back());
-    //     gradelist.pop_back();
-    //     delete g;
-    // }
 }
 
 int main(int argc, char *argv[]) {
@@ -141,66 +131,48 @@ int main(int argc, char *argv[]) {
 	in_put.open(argv[1]);
 
 	vector<student> studentlist;
-	
 	fillStdVect (studentlist, in_put);
-
 	sort(studentlist.begin(), studentlist.end());
-	
-	printStudent ( studentlist, print);
-
+	printStudent(studentlist, print);
 	in_put.close();
 
 	ifstream inGrades;
 	inGrades.open(argv[2]);
-
 	vector<grades> gradelist;
-    fillGrdVect (gradelist, inGrades);
-
+   fillGrdVect(gradelist, inGrades);
 	sort(gradelist.begin(), gradelist.end());
-	
-    printGrades (gradelist, print);
-
+   printGrades(gradelist, print);
 	inGrades.close();
 
 	ifstream inQ;
 	inQ.open(argv[3]);
-	
 	string id;
-	
-	int addcounter = 0;
-	
+	int counter = 0;
 	while (getline(inQ, id))
 	{
-		
-
-		string name;
-		double gpa = 0.00;
-		
-		for (int i = 0; i < studentlist.size(); i++)
+		const string* pName = NULL;
+		for (unsigned int i = 0; i < studentlist.size(); i++)
 		{
 			if (id == studentlist[i].getID())
 			{
-				name = studentlist[i].getName();
+				pName = &(studentlist[i].getName());
 				break;
 			}
-			
 		}
-		if (name == "")
+		
+		if (pName == NULL)
 		{
 			continue;
 		}
 		
-		gpa = gpaCalculator (gradelist, id);
-		
-		postPrint (gradelist, print, addcounter);
-		
-		addcounter++;
-		print << endl << fixed << setprecision(2) << id << "    " << gpa << "    " << name;
+		double gpa = gpaCalculator (gradelist, id);
+		postPrint (gradelist, print, counter);
+		counter++;
+		print << endl << fixed << setprecision(2) << id << "    " << gpa << "    " << *pName;
 	}
+	
 	print.close();
-	putToysAway (gradelist, studentlist);
-	//system("pause");
 	
 	return 0;
-
 }
+
