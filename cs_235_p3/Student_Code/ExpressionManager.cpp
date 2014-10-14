@@ -2,6 +2,8 @@
 #include "ExpressionManager.h"
 #include <string>
 #include <stack>
+#include <iostream>
+#include <sstream>
 using namespace std;
 
 /* TEST CASES TO WATCH FOR
@@ -13,63 +15,141 @@ using namespace std;
 6. Handle divide by zero attempts
 */
 
-/*   DONT FOCUS ON THIS YET
-int isNumber(string expression) //is it a number
+bool ExpressionManager::isNumber(const string& s)
 {
-	//for ()
-	
-	return 0;
-}
-
-bool operators(string expression)// operators are correct
-{
-	for (int i = 0; i < expression.size(); i++)
-	{
-
+	if (s.empty() || (s[0] < '0' || s[0] > '9') && ((s.size() < 2) || (s[0] != '-' || s[0] != '+'))) {
+		return false;
 	}
-	return false;
-}
-*/
 
-bool ratio(string expression)// numbers to operands
-{
-	stack<int> numbers;
-	stack<char> operand; 
-	for (int i = 0; i < expression.size(); i++)
-	{
-		if (isNumber(expression[i]) == -1)
-		{
+	if (s.size() == 1) {
+		return true;
+	}
+
+	for (int i = 1; i < s.size(); i++) {
+		if (s[i] < '0' || s[i] > '9') {
 			return false;
 		}
-		else
-		{
-            numbers.push(expression[i]);//expression[i] needs to be replaced with a int type piece of info
-		}
-		if (operators(expression[i] == true))
-		{
-		    operand.push(expression[i]);
-		}
-		
 	}
-	if(operand.size() + != numbers.size())
-	{
-	    return false;
-	}
+
 	return true;
-	
+}
+
+// True if one of +, -, *, /, and %
+bool ExpressionManager::isOperator(const string& s)
+{
+	// Assume all operators are a single char.
+	if (s.size() != 1) {
+		return false;
+	}
+
+	char c = s[0];
+
+	return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
+}
+
+// True if one of {, }, (, ), [, and ] 
+bool ExpressionManager::isMatchyMigrainSymbol(const string& s)
+{
+	// Assume all migrain inducing symbols are a single char.
+	if (s.size() != 1) {
+		return false;
+	}
+
+	char c = s[0];
+
+	return c == '{' || c == '}' || c == '(' || c == ')' || c == '[' || c == ']';
+}
+
+
+bool ExpressionManager::ratio(const string& expression)// numbers (operands) to operators
+{
+	stack<string> numbers;
+	stack<char> operators;
+	stack<char> matchyMigrainSymbols;
+
+	string s;
+	stringstream ss(expression);
+	while (getline(ss, s, ' '))
+		//for (int i = 0; i < expression.size(); i++)
+	{
+		if (isNumber(s))
+		{
+			numbers.push(s);
+		}
+		else if (isOperator(s))
+		{
+			operators.push(s[0]);
+		}
+		else if (isMatchyMigrainSymbol(s))
+		{
+			matchyMigrainSymbols.push(s[0]);
+		}
+		else {
+			// TODO: error, bad character in expression
+		}
+	}
+
+	if (operators.size() + 1 != numbers.size())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 /*   DONT FOCUS ON THIS YET
 int presidence()
 {
-	return 0;
-}
-
-bool brackets()
-{
-	return false;
+return 0;
 }
 */
+
+bool ExpressionManager::brackets(const string& expression)
+{
+	stack<string> braketThings;
+	string s;
+	stringstream ss(expression);
+	while (getline(ss, s, ' '))
+	{
+		if (s.empty())
+		{
+			return false;
+		}
+		else if (s == "{" || s == "(" || s == "[")
+		{
+			braketThings.push(s);
+		}
+		else if (s == "}" || s == ")" || s == "]")
+		{
+			if (braketThings.empty())
+			{
+				return false;
+			}
+			else if (s == "}" && braketThings.top() != "{")
+			{
+				return false;
+			}
+			else if (s == "]" && braketThings.top() != "[")
+			{
+				return false;
+			}
+			else if (s == ")" && braketThings.top() != "(")
+			{
+				return false;
+			}
+			else
+			{
+				braketThings.pop();
+			}
+		}
+	}
+	if (braketThings.empty())
+	{
+		return true;
+	}
+	return false;
+}
+
 
 /*
 * Checks whether an expression is balanced on its parentheses
@@ -80,44 +160,9 @@ bool brackets()
 * @return false otherwise
 */
 
-bool isBalanced(string expression)
+bool ExpressionManager::isBalanced(string expression)
 {
-	string parenOpen = "[{(";
-	string parenClose = "]})";
-	string checker = "";
-	stack<char> parenCheck;	
-	if (expression == "")
-	{
-		cout << "Empty expression string" << endl;
-		return false;
-	}
-	for (int i = 0; i < expression.size(); i++)
-	{
-		for (int j = 0; i < parenOpen.size(); j++)
-		{
-			if (expression[i] == parenOpen[j])
-			{
-				parenCheck.push(expression[i]);
-			}
-			else if (expression[i] == parenClose[j])
-			{
-				if (parenCheck.top() == NULL)
-				{
-					cout << "Uneven braces!" << endl;
-					return false;
-				}
-				//do I need to check for specific braces () [] {}?
-				//checker = parenCheck.top(); //get the top data person
-				else
-				{
-					parenCheck.pop();
-				}
-		
-			}
-		}
-		if ()
-	}
-	return false;
+	return brackets(expression);
 }
 
 
@@ -133,10 +178,72 @@ bool isBalanced(string expression)
 * return the string "invalid" if postfixExpression is not a valid postfix expression.
 * otherwise, return the correct infix expression as a string.
 */
-string postfixToInfix(string postfixExpression)
+string ExpressionManager::postfixToInfix(string postfixExpression)
 {
+	// Example input
+	//
+	//    5 1 2 + 4 × + 3 −
 
-	return "";
+	stack<string> conversion;
+	string s;
+	string infix;
+	stringstream ss(postfixExpression);
+	while (getline(ss, s, ' '))
+	{
+	    if(!isNumber(s) && !isOperator(s)) //bad character
+        {
+    	    return "invalid";        
+        }
+        else if(isNumber(s))
+        {
+            conversion.push(s);
+        }
+        else if (isOperator(s))
+        {
+            if(conversion.size() < 2)
+            {
+                return "invalid";
+            }
+            string rh = conversion.top();
+            conversion.pop();
+            string lh = conversion.top();
+            conversion.pop();
+         
+            if(s == "+")
+            {
+               conversion.push("( " + lh + " + " + rh + " )");
+            }
+            else if(s == "-")
+            {
+               conversion.push("( " + lh + " - " + rh + " )");
+            }
+            else if (s == "*")
+            {
+               conversion.push("( " + lh + " * " + rh + " )");
+            }
+            else if (s == "/")
+            {
+                conversion.push("( " + lh + " / " + rh + " )");
+            }
+            else if (s == "%")
+            {
+                conversion.push("( " + lh + " % " + rh + " )");
+            }
+        }
+	}
+	
+	if (conversion.empty()) {
+		return "invalid";
+	}
+	
+	infix = conversion.top();
+	conversion.pop();
+	
+	if(conversion.size()>0)
+	{
+	    return "invalid";
+	}
+	return infix;
 }
 
 /*
@@ -150,9 +257,102 @@ string postfixToInfix(string postfixExpression)
 * return the string "invalid" if infixExpression is not a valid infix expression.
 * otherwise, return the correct postfix expression as a string.
 */
-string infixToPostfix(string infixExpression)
+string ExpressionManager::infixToPostfix(string infixExpression)
 {
-	return "";
+	//  Example input
+	//  40 * ( 2 + 4 - ( 2 + 2 ) ) - 4 / 5 / 6
+	//
+	//  Expected result
+    //  40 2 4 + 2 2 + - * 4 5 / 6 / -
+
+	if(!ratio(infixExpression))
+	{
+		cout << "congrats you are ratio" << endl;
+		return "invalid";
+	}
+	if(!brackets(infixExpression))
+	{
+		cout << "congrats you are brackets()" << endl;
+		return "invalid";
+	}
+    stack<string> conversion;
+	string s;
+	string l1;
+	string l2;
+	string lh;
+	string opp;
+	string postfix;
+	stringstream ss(infixExpression);
+	while (getline(ss, s, ' '))
+	{
+	    if(!isNumber(s) && !isOperator(s) && !isMatchyMigrainSymbol(s)) //bad character
+        {
+        	cout << "congrats you are !num or !opp or !brace" << endl;
+    	    return "invalid";        
+        }
+        else if(isNumber(s))
+        {
+        	if(conversion.empty())
+        	{
+        		conversion.push(s);
+        	}
+        	else if(isOperator(conversion.top()))
+        	{
+            	opp = conversion.top();
+            	conversion.pop();
+            	lh = conversion.top();
+            	conversion.pop();	
+            	conversion.push(lh + " " + s + " " + opp);
+        	}
+        }
+        else if (isOperator(s))
+        {
+        	conversion.push(s);
+        }
+        else if(s == "(" || s == "{" || s == "[")
+        {
+        	conversion.push(s);
+        }
+        else if(s == ")" || s == "}" || s == "]")
+        {
+        	l1 = conversion.top();
+        	conversion.pop();
+        	if(l1 == "(" || l1 == "{" || l1 == "[")
+			{
+				
+			}
+       		l2 = conversion.top();
+       		conversion.pop();
+       		cout << "npos is our problem" << endl;
+			if(l2.find(' ') == -1)
+			{
+				return false;
+			}
+			cout << "npos is not our problem" << endl;
+			
+        }
+	}
+	
+	if (conversion.empty()) 
+	{
+		cout << "congrats you are empty" << endl;
+		return "invalid";
+	}
+	
+	postfix = conversion.top();
+	conversion.pop();
+	
+	if(conversion.size()>0)
+	{
+		cout << "congrats you are greater than 0 postfix: " << postfix << " top thing: " << conversion.top() << endl;
+		cout << "Dumping stack:" << endl;
+		while (!conversion.empty()) {
+			cout << "  '" << conversion.top() << "'" << endl;
+			conversion.pop();
+		}
+	    return "invalid";
+	}
+	return postfix;
 }
 
 /*
@@ -164,7 +364,36 @@ string infixToPostfix(string infixExpression)
 * return the string "invalid" if postfixExpression is not a valid postfix Expression
 * otherwise, return the correct evaluation as a string
 */
-string postfixEvaluate(string postfixExpression)
+string ExpressionManager::postfixEvaluate(string postfixExpression)
 {
-	return "";
+    
+    /*
+                if(s == "+")
+            {
+                int sum = first + last; // conversion from string to int needed
+                conversion.push(sum); // conversion from int to string needed
+            }
+            else if(s == "-")
+            {
+                int sub = first - last; // conversion from string to int needed
+                conversion.push(sub); // conversion from int to string needed
+            }
+            else if (s == "*")
+            {
+                int times = first * last; // conversion from string to int needed
+                conversion.push(times); // conversion from int to string needed
+            }
+            else if (s == "/")
+            {
+                int divide = first / last; // conversion from string to int needed
+                conversion.push(divide); // conversion from int to string needed
+            }
+            else if (s == "%")
+            {
+                int mod = first % last; // conversion from string to int needed
+                conversion.push(mod); // conversion from int to string needed
+            }
+    */
+    
+	return "invalid";
 }

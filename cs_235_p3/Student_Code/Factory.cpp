@@ -16,7 +16,7 @@ using namespace std;
 */
 ExpressionManagerInterface* Factory::createManager()
 {
-	ExpressionManagerInterface* manager = new ExpressionManager;
+	ExpressionManagerInterface* manager = new ExpressionManager();
 	
 	return manager;
 }
