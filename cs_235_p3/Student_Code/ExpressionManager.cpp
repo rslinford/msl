@@ -15,6 +15,7 @@ using namespace std;
 6. Handle divide by zero attempts
 */
 
+
 bool ExpressionManager::isNumber(const string& s)
 {
 	if (s.empty() || (s[0] < '0' || s[0] > '9') && ((s.size() < 2) || (s[0] != '-' || s[0] != '+'))) {
@@ -151,19 +152,11 @@ bool ExpressionManager::brackets(const string& expression)
 }
 
 
-/*
-* Checks whether an expression is balanced on its parentheses
-*
-* - The given expression will have a space between every number or operator
-*
-* @return true if expression is balanced
-* @return false otherwise
-*/
-
 bool ExpressionManager::isBalanced(string expression)
 {
 	return brackets(expression);
 }
+
 
 
 /**
@@ -246,6 +239,65 @@ string ExpressionManager::postfixToInfix(string postfixExpression)
 	return infix;
 }
 
+int ExpressionManager::lookUpPrecedence(const string& o) {
+	if (o == "*" || o == "/" || o == "%") {
+		return 3;
+	}
+	
+	if (o == "+" || o == "-") {
+		return 2;
+	}
+	
+	if (isCloser(o)) {
+		return -1;
+	}
+	
+	if (isOpener(o)) {
+		return -2;
+	}
+	
+	return -100;
+}
+
+bool ExpressionManager::compareOps(const string& o1, const string& o2) {
+	int p1 = lookUpPrecedence(o1);
+	int p2 = lookUpPrecedence(o2);
+	
+	return p1 <= p2;
+}
+
+bool ExpressionManager::isOpener(const string& s) {
+	return s == "(" || s == "{" || s == "[";
+}
+
+bool ExpressionManager::isCloser(const string& s) {
+	return s == ")" || s == "}" || s == "]";
+}
+
+string ExpressionManager::stackToString(const stack<string>& os) {
+	stack<string> dump = os;
+	string s;
+	while (!dump.empty()) {
+		s += dump.top();
+		dump.pop();
+	}
+	return s;
+}
+
+string ExpressionManager::stackToString(const stack<int>& os) {
+	stack<int> dump = os;
+	string s;
+	while (!dump.empty()) {
+		stringstream x;
+		x << dump.top();
+		string y;
+		x >> y;
+		s = s + " " + y;
+		dump.pop();
+	}
+	return s;
+}
+
 /*
 * Converts an infix expression into a postfix expression
 * and returns the postfix expression
@@ -262,97 +314,87 @@ string ExpressionManager::infixToPostfix(string infixExpression)
 	//  Example input
 	//  40 * ( 2 + 4 - ( 2 + 2 ) ) - 4 / 5 / 6
 	//
+	//  ( 40 * ( 2 + 4 - ( 2 + 2 ) ) ) - ( ( 4 / 5 ) / 6 )
+	//
 	//  Expected result
     //  40 2 4 + 2 2 + - * 4 5 / 6 / -
+    
+ //   cout << endl << "Infix to Postfix. Starting infix:" << endl;
+  //  cout << "   '" << infixExpression << "'" << endl;
 
 	if(!ratio(infixExpression))
 	{
-		cout << "congrats you are ratio" << endl;
+//		cout << "congrats you are ratio" << endl;
 		return "invalid";
 	}
 	if(!brackets(infixExpression))
 	{
-		cout << "congrats you are brackets()" << endl;
+	//	cout << "congrats you are brackets()" << endl;
 		return "invalid";
 	}
     stack<string> conversion;
 	string s;
-	string l1;
-	string l2;
-	string lh;
-	string opp;
-	string postfix;
+	string postfix = "";
 	stringstream ss(infixExpression);
 	while (getline(ss, s, ' '))
 	{
-	    if(!isNumber(s) && !isOperator(s) && !isMatchyMigrainSymbol(s)) //bad character
-        {
-        	cout << "congrats you are !num or !opp or !brace" << endl;
-    	    return "invalid";        
-        }
-        else if(isNumber(s))
-        {
-        	if(conversion.empty())
-        	{
-        		conversion.push(s);
-        	}
-        	else if(isOperator(conversion.top()))
-        	{
-            	opp = conversion.top();
-            	conversion.pop();
-            	lh = conversion.top();
-            	conversion.pop();	
-            	conversion.push(lh + " " + s + " " + opp);
-        	}
-        }
-        else if (isOperator(s))
-        {
-        	conversion.push(s);
-        }
-        else if(s == "(" || s == "{" || s == "[")
-        {
-        	conversion.push(s);
-        }
-        else if(s == ")" || s == "}" || s == "]")
-        {
-        	l1 = conversion.top();
-        	conversion.pop();
-        	if(l1 == "(" || l1 == "{" || l1 == "[")
-			{
-				
+	//	cout << endl << "Token '" << s << "'   Postfix '" << postfix << "'   Stack '" << stackToString(conversion) << "'" << endl;
+		if(isNumber(s))
+		{
+			postfix = postfix + " " + s;
+			continue;
+		}
+		
+		if(isOpener(s))		
+		{
+			conversion.push(s);
+			continue;
+		}
+		
+		if(isOperator(s))
+		{
+			while ( (!conversion.empty()) && compareOps(s, conversion.top()) ) {
+				postfix = postfix + " " + conversion.top();
+				conversion.pop();
 			}
-       		l2 = conversion.top();
-       		conversion.pop();
-       		cout << "npos is our problem" << endl;
-			if(l2.find(' ') == -1)
-			{
-				return false;
-			}
-			cout << "npos is not our problem" << endl;
 			
-        }
-	}
-	
-	if (conversion.empty()) 
-	{
-		cout << "congrats you are empty" << endl;
-		return "invalid";
-	}
-	
-	postfix = conversion.top();
-	conversion.pop();
-	
-	if(conversion.size()>0)
-	{
-		cout << "congrats you are greater than 0 postfix: " << postfix << " top thing: " << conversion.top() << endl;
-		cout << "Dumping stack:" << endl;
-		while (!conversion.empty()) {
-			cout << "  '" << conversion.top() << "'" << endl;
+    		conversion.push(s);
+		}
+
+		if(isCloser(s)) 
+		{
+			while ( (!conversion.empty()) && (!isOpener(conversion.top())) ) {
+				postfix = postfix + " " + conversion.top();
+				conversion.pop();
+			}
+			if( conversion.empty() || !isOpener(conversion.top()) )
+			{
+				return "invalid";
+			}
 			conversion.pop();
 		}
-	    return "invalid";
 	}
+	
+	while (!conversion.empty()) {
+		postfix += " " + conversion.top();
+		conversion.pop();
+	}
+	
+	// trim leading space(s)
+	postfix.erase(0, postfix.find_first_not_of(' '));
+//	cout << endl << "Returning postfix expression '" << postfix << "'" << endl;
+
 	return postfix;
+}
+
+int ExpressionManager::stringToInt(string s) {
+	int i = 0;
+	stringstream ss;
+	ss.str("");
+	ss.str(s);
+	ss >> i;
+	
+	return i;
 }
 
 /*
@@ -366,34 +408,132 @@ string ExpressionManager::infixToPostfix(string infixExpression)
 */
 string ExpressionManager::postfixEvaluate(string postfixExpression)
 {
+    cout << endl << "Postfix Eval. Expression:" << endl;
+    cout << "   '" << postfixExpression << "'" << endl;
     
-    /*
-                if(s == "+")
+	// Example input
+	//
+	//   40 2 4 + 1 1 + - * 4 2 / 1 / - 7 %
+	//
+	//   2 4 + 1 1 + - * 4 2 / 1 / - 7 %       40
+	//
+	//   4 + 1 1 + - * 4 2 / 1 / - 7 %       2 40
+	//
+	//   + 1 1 + - * 4 2 / 1 / - 7 %       4 2 40
+	//
+	//   1 1 + - * 4 2 / 1 / - 7 %           6 40
+	//
+	//   1 + - * 4 2 / 1 / - 7 %           1 6 40
+	//
+	//   + - * 4 2 / 1 / - 7 %           1 1 6 40
+	//
+	//   - * 4 2 / 1 / - 7 %               2 6 40
+	//
+	//   * 4 2 / 1 / - 7 %                   8 40
+	//
+	//   4 2 / 1 / - 7 %                      320
+	//
+	//   2 / 1 / - 7 %                      4 320
+	//
+	//   / 1 / - 7 %                      2 4 320
+	//
+	//   1 / - 7 %                          2 320
+	//
+	//   / - 7 %                          1 2 320
+	//
+	//   - 7 %                              2 320
+	//
+	//   7 %                                  318
+	//
+	//   %                                  7 318
+	//
+	//   %                                  7 318
+	//
+	//                                          3
+
+    stack<int> numbers;
+	string s;
+	stringstream ss(postfixExpression);
+	while (getline(ss, s, ' '))
+	{
+		if(isMatchyMigrainSymbol(s))
+		{
+			return "invalid";
+		}
+		cout << endl << "Token '" << s << "'   Stack '" << stackToString(numbers) << "'" << endl;
+		
+		if (s.empty())
+		{
+			return "invalid";
+		}
+
+		if(isNumber(s))
+		{
+			numbers.push(stringToInt(s));
+			continue;
+		}
+		
+		if(isOperator(s))
+		{
+			if(numbers.size()<2)
+			{
+				return "invalid";
+			}
+			
+			int rh = numbers.top();
+			numbers.pop();
+			int lh = numbers.top();
+			numbers.pop();
+			
+			if(s == "+")
             {
-                int sum = first + last; // conversion from string to int needed
-                conversion.push(sum); // conversion from int to string needed
+                numbers.push(lh + rh); 
             }
             else if(s == "-")
             {
-                int sub = first - last; // conversion from string to int needed
-                conversion.push(sub); // conversion from int to string needed
+                numbers.push(lh - rh); 
             }
             else if (s == "*")
             {
-                int times = first * last; // conversion from string to int needed
-                conversion.push(times); // conversion from int to string needed
+                numbers.push(lh * rh); 
             }
             else if (s == "/")
             {
-                int divide = first / last; // conversion from string to int needed
-                conversion.push(divide); // conversion from int to string needed
+            	if(rh == 0)
+            	{
+            		return "invalid";
+            	}
+                numbers.push(lh / rh); 
             }
             else if (s == "%")
             {
-                int mod = first % last; // conversion from string to int needed
-                conversion.push(mod); // conversion from int to string needed
+            	if(rh == 0)
+            	{
+            		return "invalid";
+            	}
+                numbers.push(lh % rh); 
             }
-    */
-    
-	return "invalid";
+		}
+	}
+	
+	
+	if(numbers.empty())
+	{
+		return "invalid";
+	}
+	
+	int total = numbers.top();
+	numbers.pop();
+	
+	if(numbers.size()>0)
+	{
+	    return "invalid";
+	}
+	
+	cout << "Returning total: " << total << endl;
+   		stringstream x;
+		x << total;
+		string y;
+		x >> y;
+	return y;
 }

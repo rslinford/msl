@@ -11,7 +11,14 @@ private:
     static bool ratio(const string& expression);
     static bool brackets(const string& expression);
     static bool isMatchyMigrainSymbol(const string& s);
-    
+    static bool isOpener(const string& s);
+    static bool isCloser(const string& s);
+    static int lookUpPrecedence(const string& o);
+    static bool compareOps(const string& o1, const string& o2);
+    static string stackToString(const stack<string>& os);
+    static int stringToInt(string s);
+    static string stackToString(const stack<int>& os);
+        
 public:
 	ExpressionManager() {}
 	virtual ~ExpressionManager() {}
