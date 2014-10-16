@@ -408,8 +408,8 @@ int ExpressionManager::stringToInt(string s) {
 */
 string ExpressionManager::postfixEvaluate(string postfixExpression)
 {
-    cout << endl << "Postfix Eval. Expression:" << endl;
-    cout << "   '" << postfixExpression << "'" << endl;
+ //   cout << endl << "Postfix Eval. Expression:" << endl;
+ //   cout << "   '" << postfixExpression << "'" << endl;
     
 	// Example input
 	//
@@ -460,7 +460,7 @@ string ExpressionManager::postfixEvaluate(string postfixExpression)
 		{
 			return "invalid";
 		}
-		cout << endl << "Token '" << s << "'   Stack '" << stackToString(numbers) << "'" << endl;
+	//	cout << endl << "Token '" << s << "'   Stack '" << stackToString(numbers) << "'" << endl;
 		
 		if (s.empty())
 		{
