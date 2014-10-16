@@ -1,0 +1,3 @@
+# file for git to ignore
+**/*.o
+\.c9
