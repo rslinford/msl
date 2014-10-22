@@ -23,5 +23,5 @@ memory: dont_run_me
 	valgrind --leak-check=full ./$(EXE)
 
 compile:
-	$(CC) -oExMan.o Student_Code/ExpressionManager.cpp
+	$(CC) -oExMan.o Student_Code/*.cpp
 
