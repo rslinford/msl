@@ -17,5 +17,5 @@
 */
 LinkedListInterface * Factory::getLinkedList()
 {
-	return new LinkedList();//Modify this line
+	return new LinkedList();
 }
