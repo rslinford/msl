@@ -12,7 +12,9 @@ private:
     virtual bool duplicate(int value);
 public:
 	LinkedList(){};
-	virtual ~LinkedList(){};
+	virtual ~LinkedList(){
+	    clear();
+	};
 
 	virtual void insertHead(int value);
 	virtual void insertTail(int value);

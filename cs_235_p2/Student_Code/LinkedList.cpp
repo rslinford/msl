@@ -46,7 +46,27 @@ void LinkedList::insertHead(int value)
 	 
 void LinkedList::insertTail(int value)
 {
-
+    if (value < 0 || duplicate(value) == true)
+    {
+        return;
+    }
+    if (head == NULL)
+    {
+       Node *t = new Node();
+       t->value = value;
+       head = t;
+       return;
+    }
+    
+    Node *n = head;
+    while (n->next != NULL)
+    {
+        n = n->next;
+    }
+    
+    n->next = new Node();
+    n->next->value = value;
+    return;
 }
 	/*
 		insertTail
@@ -58,9 +78,26 @@ void LinkedList::insertTail(int value)
 	 */
 	 
 
-void LinkedList::insertAfter(int value, int insertionValue)
+void LinkedList::insertAfter(int value, int insertionNode)
 {
-
+    if(duplicate(value) || !duplicate(insertionNode))
+    {
+        return;
+    }
+    
+    Node *n = head;
+    while (n->value != insertionNode)
+    {
+        n = n->next;
+    }
+    //cout << "n->value == " << n->value << endl;
+    //cout << "n->next == " << n->next << endl;
+    Node* temp = n->next;
+    n->next = new Node();
+    n->next->value = value;
+    //cout << "n->next->value == " << n->next->value << endl;
+    //cout << "n->next->next == " << n->next->next << endl;
+    n->next->next = temp;
 }
 	/*
 		insertAfter
@@ -85,7 +122,7 @@ void LinkedList::remove(int value)
     Node *prev = NULL;
     while (n != NULL)
     {
-        cout << "the value of n->value: " << n->value << endl;
+       // cout << "the value of n->value: " << n->value << endl;
         if( n->value == value)
         { 
         	if (prev == NULL)
