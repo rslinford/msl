@@ -8,14 +8,27 @@
 */
 //=======================================================================================
 /*
-	getLinkedList()
+	getLinkedListInt() and
 
 	Creates and returns an object whose class extends LinkedListInterface.
 	This should be an object of a class you have created.
 
-	Example: If you made a class called "LinkedList", you might say, "return new LinkedList();".
+	Example: If you made a class called "LinkedList", you might say, "return new LinkedList<int>();".
 */
-LinkedListInterface * Factory::getLinkedList()
+LinkedListInterface<int> * Factory::getLinkedListInt()
 {
-	return new LinkedList<int>();
+	return new LinkedList<int>();//Modify this line
+}
+
+/*
+	getLinkedListString() and
+
+	Creates and returns an object whose class extends LinkedListInterface.
+	This should be an object of a class you have created.
+
+	Example: If you made a class called "LinkedList", you might say, "return new LinkedList<string>();".
+*/
+LinkedListInterface<string>* Factory::getLinkedListString()
+{
+	return new LinkedList<string>();//Modify this line
 }

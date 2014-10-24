@@ -5,7 +5,7 @@
 using namespace std;
 
 template <class T> 
-class LinkedList : public LinkedListInterface
+class LinkedList : public LinkedListInterface<T>
 {
 private:
 	template <class U> 
@@ -68,10 +68,10 @@ duplicate values in the list.
 template <class T>
 void LinkedList<T>::insertHead(T value)
 {
-	if (value < 0)
-	{
-		return;
-	}
+	// if (value < 0)
+	// {
+	// 	return;
+	// }
 	if (duplicate(value) == true)
 	{
 		return;
@@ -93,7 +93,11 @@ duplicate values in the list.
 template <class T>
 void LinkedList<T>::insertTail(T value)
 {
-	if (value < 0 || duplicate(value) == true)
+	// 	if (value < 0 || duplicate(value) == true)
+	// {
+	// 	return;
+	// }
+	if (duplicate(value) == true)
 	{
 		return;
 	}
@@ -213,10 +217,13 @@ If the given index is out of range of the list, return -1;
 template <class T>
 T LinkedList<T>::at(int index)
 {
-
+	// if (index >= size() || index < 0)
+	// {
+	// 	return -1;
+	// }
 	if (index >= size() || index < 0)
 	{
-		return -1;
+		return NULL;
 	}
 	Node<T> *n = head;
 
