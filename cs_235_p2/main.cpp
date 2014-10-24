@@ -1,19 +1,11 @@
-#pragma once
-#include <iostream>
 #include "LinkedList.h"
 
 using namespace std;
 
 int main()
 {
-    int value0 = 0;
-    int value1 = 1;
-    int value2 = 2;
-    int value5 = 5;
-    int value10 = 10;
-    
-    LinkedList t = LinkedList();
-    
+    LinkedList<int> t;
+
     t.insertHead(123);
     if (t.at(0) != 123) {
         cout << "Error expected 123 at [0] found " << t.at(0) << endl;
@@ -106,7 +98,7 @@ int main()
         return 1;
     }
 
-
-    //cout << endl << "All tests passed!" << endl;
+    cout << endl << "Dad's tests passed!" << endl;
+    
     return 0;
 }

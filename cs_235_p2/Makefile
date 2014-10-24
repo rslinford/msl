@@ -16,6 +16,7 @@ dont_run_me:
 
 clean:
 	rm -rf $(EXE)
+	rm -rf runme
 
 complexity: dont_run_me
 	pmccabe -v Student_Code/*.h Student_Code/*.cpp
@@ -24,7 +25,7 @@ memory: dont_run_me
 	valgrind --leak-check=full ./$(EXE)
 
 compile:
-	$(CC) -orunme Student_Code/*.cpp -g
+	$(CC) -orunme Student_Code/main.cpp -g
 	
 run: compile
 	./runme
