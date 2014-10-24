@@ -2,8 +2,6 @@
 #include "Deque.h"
 
 
-
-
 //Part 4--------------------------------------------------------------
 /**
  * Adds the current car to the deque on the left side.  After this operation, there should be no current car.
@@ -11,7 +9,7 @@
  *
  * @return true if the car is successfully added to the deque; false otherwise
  */
-bool addToDequeLeft(int car)
+bool Deque::addToDequeLeft(int car)
 {
     return false;
 }
@@ -22,7 +20,7 @@ bool addToDequeLeft(int car)
  *
  * @return true if the car is successfully added to the deque; false otherwise
  */
-bool addToDequeRight(int car)
+bool Deque::addToDequeRight(int car)
 {
     return false;
 }
@@ -33,7 +31,7 @@ bool addToDequeRight(int car)
  *
  * @return true if the car is successfully removed from the deque; false otherwise
  */
-bool removeFromDequeLeft()
+bool Deque::removeFromDequeLeft()
 {
     return false;
 }
@@ -44,7 +42,7 @@ bool removeFromDequeLeft()
  *
  * @return true if the car is successfully removed from the deque; false otherwise
  */
-bool removeFromDequeRight()
+bool Deque::removeFromDequeRight()
 {
     return false;
 }
@@ -54,7 +52,7 @@ bool removeFromDequeRight()
  *
  * @return the ID of the leftmost car in the deque; -1 if the deque is empty
  */
-int showTopOfDequeLeft()
+int Deque::showTopOfDequeLeft()
 {
     return 0;
 }
@@ -64,7 +62,7 @@ int showTopOfDequeLeft()
  *
  * @return the ID of the rightmost car in the deque; -1 if the deque is empty
  */
-int showTopOfDequeRight()
+int Deque::showTopOfDequeRight()
 {
     return 0;
 }
@@ -74,7 +72,11 @@ int showTopOfDequeRight()
  *
  * @return the number of cars in the deque
  */
-int showSizeOfDeque()
+int Deque::showSizeOfDeque()
 {
     return 0;
+}
+
+bool Deque::isDuplicate(int x) {
+    return list->duplicate(x);
 }

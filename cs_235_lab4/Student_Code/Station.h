@@ -158,23 +158,30 @@ class Station : public StationInterface
 		 */
 		virtual int showSizeOfDeque();
 	
-		bool inStack(int car);
-		bool inQueue(int car);
-		bool inDeque(int)
+		// bool inStack(int car);
+		// bool inQueue(int car);
+		// bool inDeque(int car);
 
-  private:
-  
-  int cCar = -1;
-  const int cLimit = 5;
-  
-  Queue queue();
-  Deque deque();
-  Stack stack();
-  
+		Station() {
+			cCar = -1;
+			queue = new Queue();
+			deque = new Deque();
+			stack = new Stack();
+		}
+		
+		~Station() {
+			delete queue;
+			delete deque;
+			delete stack;
+		}
 
+private:
   
+  const static int cLimit = 5;
+  int cCar;
   
-	
-    
-    
+  Queue* queue;
+  Deque* deque;
+  Stack* stack;
+
 };

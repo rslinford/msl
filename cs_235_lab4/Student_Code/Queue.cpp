@@ -4,23 +4,27 @@
 using namespace std;
 
 bool Queue::addToQueue(int x){
-    list.insertTail(x);
+    list->insertTail(x);
     return true;
 }
 
 int Queue::showTopOfQueue() {
-    return list.at(0);
+    return list->at(0);
 }
 
 bool Queue::removeFromQueue(){
-    if (list.size() == 0){
+    if (list->size() == 0){
         return false;
     }
     
-    list.remove(list.at(0))
+    list->remove(list->at(0));
     return true;
 }
 
 int Queue::showSizeOfQueue(){
-    return list.size();
+    return list->size();
+}
+
+bool Queue::isDuplicate(int x) {
+    return list->duplicate(x);
 }

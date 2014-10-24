@@ -10,9 +10,9 @@
  *
  * @return true if the car is successfully added to the stack; false otherwise
  */
-bool addToStack(int car)
+bool Stack::addToStack(int car)
 {
-    list.insertHead(car);
+    list->insertHead(car);
     return true;
 }
 
@@ -22,10 +22,14 @@ bool addToStack(int car)
  *
  * @return true if the car is successfully removed from the stack; false otherwise
  */
-bool removeFromStack(int car)
+bool Stack::removeFromStack()
 {
-    list.remove(car)
-    return false;
+    if (list->size() <= 0) {
+        return false;
+    }
+
+    list->remove(list->at(0));
+    return true;
 }
 
 /**
@@ -33,13 +37,13 @@ bool removeFromStack(int car)
  *
  * @return the ID of the first car in the stack; -1 if the stack is empty
  */
-int showTopOfStack()
+int Stack::showTopOfStack()
 {
-    if (list.size()<=0)
+    if (list->size()<=0)
     {
         return -1;
     }
-    return list.at(0);;
+    return list->at(0);
 }
 
 /**
@@ -47,7 +51,11 @@ int showTopOfStack()
  *
  * @return the number of cars in the stack
  */
-int showSizeOfStack()
+int Stack::showSizeOfStack()
 {
-    return list.size();
+    return list->size();
+}
+
+bool Stack::isDuplicate(int x) {
+    return list->duplicate(x);
 }

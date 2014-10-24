@@ -19,14 +19,13 @@ private:
 	Node<T>* head = NULL;
 	Node<T>* tail = NULL;
 
-	virtual bool duplicate(T value);
-	
 public:
 	LinkedList(){};
 	virtual ~LinkedList(){
 		clear();
 	};
 
+	virtual bool duplicate(T value);
 	virtual void insertHead(T value);
 	virtual void insertTail(T value);
 	virtual void insertAfter(T value, T insertionValue);
