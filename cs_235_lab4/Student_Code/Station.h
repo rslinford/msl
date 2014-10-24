@@ -158,10 +158,6 @@ class Station : public StationInterface
 		 */
 		virtual int showSizeOfDeque();
 	
-		// bool inStack(int car);
-		// bool inQueue(int car);
-		// bool inDeque(int car);
-
 		Station() {
 			cCar = -1;
 			queue = new Queue();

@@ -2,6 +2,10 @@
 #include "Deque.h"
 
 
+// For sanity define tail to head from left to right:
+//   list's tail is Deque Left
+//   list's head as Deque Right
+
 //Part 4--------------------------------------------------------------
 /**
  * Adds the current car to the deque on the left side.  After this operation, there should be no current car.
@@ -11,7 +15,8 @@
  */
 bool Deque::addToDequeLeft(int car)
 {
-    return false;
+    list->insertTail(car);
+    return true;
 }
 
 /**
@@ -22,7 +27,8 @@ bool Deque::addToDequeLeft(int car)
  */
 bool Deque::addToDequeRight(int car)
 {
-    return false;
+    list->insertHead(car);
+    return true;
 }
 
 /**
@@ -33,7 +39,12 @@ bool Deque::addToDequeRight(int car)
  */
 bool Deque::removeFromDequeLeft()
 {
-    return false;
+    if (list->size() <= 0) {
+        return false;
+    }
+    
+    list->remove(list->at(list->size()-1));
+    return true;
 }
 
 /**
@@ -44,7 +55,12 @@ bool Deque::removeFromDequeLeft()
  */
 bool Deque::removeFromDequeRight()
 {
-    return false;
+    if (list->size() <= 0) {
+        return false;
+    }
+    
+    list->remove(list->at(0));
+    return true;
 }
 
 /**
@@ -54,7 +70,11 @@ bool Deque::removeFromDequeRight()
  */
 int Deque::showTopOfDequeLeft()
 {
-    return 0;
+    if (list->size() <= 0) {
+        return -1;
+    }
+    
+    return list->at(list->size()-1);
 }
 
 /**
@@ -64,7 +84,11 @@ int Deque::showTopOfDequeLeft()
  */
 int Deque::showTopOfDequeRight()
 {
-    return 0;
+    if (list->size() <= 0) {
+        return -1;
+    }
+    
+    return list->at(0);
 }
 
 /**
@@ -74,7 +98,7 @@ int Deque::showTopOfDequeRight()
  */
 int Deque::showSizeOfDeque()
 {
-    return 0;
+    return list->size();
 }
 
 bool Deque::isDuplicate(int x) {

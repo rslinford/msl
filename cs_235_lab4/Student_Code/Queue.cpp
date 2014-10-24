@@ -9,11 +9,14 @@ bool Queue::addToQueue(int x){
 }
 
 int Queue::showTopOfQueue() {
+    if (list->size() <= 0) {
+        return -1;
+    }
     return list->at(0);
 }
 
 bool Queue::removeFromQueue(){
-    if (list->size() == 0){
+    if (list->size() <= 0){
         return false;
     }
     

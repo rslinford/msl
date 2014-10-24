@@ -34,7 +34,7 @@ public:
 	 *
 	 * @return true if the car is successfully removed from the queue; false otherwise
 	 */
-	bool removeFromQueue();
+	bool removeFromQueue(); // don't do it
 
 	/**
 	 * Returns the ID of the first car in the queue.

@@ -195,14 +195,17 @@ int Station::showSizeOfQueue()
  */
 bool Station::addToDequeLeft()
 {
+	// Current car must exist
 	if (cCar == -1) 
 	{
 		return false;
 	}
+	// Deque must have room
 	if(deque->showSizeOfDeque() >= 5)
 	{
 		return false;
 	}
+	
 	int temp = cCar;
 	cCar = -1;
     return deque->addToDequeLeft(temp);
@@ -216,14 +219,18 @@ bool Station::addToDequeLeft()
  */
 bool Station::addToDequeRight()
 {
-	if (cCar != -1) 
+	// Current car must exist
+	if (cCar == -1) 
 	{
 		return false;
 	}
+	
+	// Deque must not be full
 	if (deque->showSizeOfDeque() >= 5) 
 	{
 		return false;
 	}
+	
 	int temp = cCar;
 	cCar = -1;
     return deque->addToDequeRight(temp);
@@ -237,14 +244,18 @@ bool Station::addToDequeRight()
  */
 bool Station::removeFromDequeLeft()
 {
+	// Must not have a current car
 	if (cCar != -1) 
 	{
 		return false;
 	}
+	
+	// Deque must not be empty
 	if (deque->showSizeOfDeque() <= 0) 
 	{
 		return false;
 	}
+	
 	cCar = deque->showTopOfDequeLeft();
 	deque->removeFromDequeLeft();
 	return true;
